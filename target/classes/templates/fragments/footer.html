@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head></head>
+<body>
+<div th:fragment="footer">
+    <footer class="footer-cg">
+        <div class="container py-4">
+            <div class="row g-4 mb-4">
+                <div class="col-md-5">
+                    <h5 class="text-white fw-bold d-flex align-items-center gap-2 mb-3">
+                        <i class="bi bi-shield-check text-primary fs-4"></i> CampusGuard
+                    </h5>
+                    <p class="small text-slate-300 mb-3" style="line-height: 1.6; color: #cbd5e1;">
+                        CampusGuard – Smart College Lost & Found System.<br>
+                        <span class="fst-italic text-slate-400" style="color: #94a3b8;">Lost on Campus. Found Faster. Returned Safely.</span>
+                    </p>
+                    <span class="badge bg-dark-subtle border border-secondary-subtle text-light px-3 py-2 rounded-pill">
+                        <i class="bi bi-lock-fill me-1 text-success"></i> Official College Security Network
+                    </span>
+                </div>
+                <div class="col-md-3">
+                    <h6 class="text-white fw-bold mb-3 uppercase" style="letter-spacing: 0.5px; font-size: 0.85rem;">Quick Navigation</h6>
+                    <ul class="list-unstyled small mb-0">
+                        <li class="mb-2"><a th:href="@{/items/search}" class="footer-link">Search Lost & Found</a></li>
+                        <li class="mb-2"><a th:href="@{/items/report-lost}" class="footer-link">Report Lost Belonging</a></li>
+                        <li class="mb-2"><a th:href="@{/items/report-found}" class="footer-link">Report Found Item</a></li>
+                        <li class="mb-2"><a th:href="@{/login}" class="footer-link">Student / Staff Login</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h6 class="text-white fw-bold mb-3 uppercase" style="letter-spacing: 0.5px; font-size: 0.85rem;">Security & Privacy Protocol</h6>
+                    <p class="small text-slate-300 mb-3" style="line-height: 1.6; color: #cbd5e1;">
+                        Student emails, phone numbers, and private identifying marks are encrypted and restricted exclusively to authorized security officers and administrators.
+                    </p>
+                    <small class="text-slate-400 d-block" style="color: #94a3b8;">&copy; 2026 CampusGuard System. All rights reserved.</small>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Officer Handover Portal – CampusGuard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="bg-light">
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container py-4">
+    <div class="glass-card p-4 mb-4 bg-dark text-white border-0 shadow-lg">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+            <div>
+                <span class="badge bg-success mb-2"><i class="bi bi-shield-check me-1"></i> SECURITY OFFICER PORTAL</span>
+                <h3 class="fw-bold text-white mb-1">Campus Item Return & Handover Desk</h3>
+                <p class="text-secondary small mb-0">Verify SRM Student Identity, Claim Reference, and Complete Safe Physical Handover.</p>
+            </div>
+            <div class="bg-navy-card p-3 rounded border border-secondary text-center">
+                <small class="text-secondary d-block uppercase" style="font-size:0.75rem;">Scheduled Handovers</small>
+                <strong class="fs-4 text-warning" th:text="${#lists.size(scheduledHandovers)}">1</strong>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{fragments/alerts :: alerts}"></div>
+
+    <div class="card-cg p-4">
+        <h5 class="fw-bold mb-3 border-bottom pb-2"><i class="bi bi-card-checklist text-primary me-2"></i> Item Handover Queue</h5>
+
+        <div th:if="${#lists.isEmpty(handovers)}" class="text-center py-5 text-muted">
+            <i class="bi bi-box-seam fs-1 d-block mb-2"></i>
+            <p>No item handovers scheduled.</p>
+        </div>
+
+        <div th:if="${!#lists.isEmpty(handovers)}" class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Handover Ref</th>
+                        <th>Student Name</th>
+                        <th>Student ID</th>
+                        <th>Item</th>
+                        <th>Location</th>
+                        <th>Scheduled Time</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="h : ${handovers}">
+                        <td><code class="fw-bold text-primary" th:text="${h.referenceCode}">CG-HO-2026-000001</code></td>
+                        <td><strong th:text="${h.claimantName}">Student Name</strong></td>
+                        <td><span class="badge bg-primary-subtle text-primary border border-primary-subtle" th:text="${h.claimantStudentId}">SRM2026CSE001</span></td>
+                        <td th:text="${h.itemName}">Item Name</td>
+                        <td th:text="${h.locationName}">Central Library</td>
+                        <td th:text="${#temporals.format(h.scheduledTime, 'dd MMM yyyy, HH:mm')}">Time</td>
+                        <td>
+                            <span class="badge"
+                                  th:classappend="${h.status.name() == 'COMPLETED' ? 'bg-success' : 'bg-warning text-dark'}"
+                                  th:text="${h.status}">SCHEDULED</span>
+                        </td>
+                        <td>
+                            <button th:if="${h.status.name() == 'SCHEDULED'}"
+                                    type="button"
+                                    class="btn btn-sm btn-success fw-bold"
+                                    data-bs-toggle="modal"
+                                    th:data-bs-target="${'#completeModal' + h.id}">
+                                <i class="bi bi-check-circle me-1"></i> Verify & Complete
+                            </button>
+                            <span th:if="${h.status.name() == 'COMPLETED'}" class="text-muted small"><i class="bi bi-check-all text-success me-1"></i> Returned</span>
+
+                            <!-- MODAL FOR HANDOVER COMPLETION -->
+                            <div class="modal fade" th:id="${'completeModal' + h.id}" tabindex="-1">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content rounded-4 border-0 shadow-lg text-start">
+                                        <div class="modal-header border-bottom">
+                                            <h5 class="modal-title fw-bold"><i class="bi bi-shield-check text-success me-2"></i> Verify Student College ID</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                        </div>
+                                        <form th:action="@{'/security/handover/' + ${h.id} + '/complete'}" method="post">
+                                            <div class="modal-body p-4">
+                                                <div class="p-3 bg-light rounded border mb-3">
+                                                    <small class="text-muted d-block">Claimant Student:</small>
+                                                    <strong class="fs-5 text-dark" th:text="${h.claimantName}">Rahul Sharma</strong>
+                                                    <div class="mt-1">
+                                                        <span class="badge bg-primary" th:text="${'Student ID: ' + h.claimantStudentId}">SRM2026CSE001</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label class="form-label fw-semibold">Security Officer Verification Notes</label>
+                                                    <textarea name="notes" class="form-control" rows="2" placeholder="e.g. Physical SRM College ID verified. Student signature taken..."></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer border-top bg-light">
+                                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                <button type="submit" class="btn btn-success fw-bold px-4">Confirm ID & Complete Handover</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Audit Logs – CampusGuard Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="bg-light">
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h3 class="fw-bold mb-1"><i class="bi bi-journal-text text-info me-2"></i> Security Audit Trail</h3>
+            <p class="text-muted small mb-0">Immutable record of logins, reports created, verification attempts, claims, and handovers.</p>
+        </div>
+        <a th:href="@{/admin/dashboard}" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left me-1"></i> Back to Control Center</a>
+    </div>
+
+    <div th:replace="~{fragments/alerts :: alerts}"></div>
+
+    <div class="card-cg p-4">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle small">
+                <thead class="table-light">
+                    <tr>
+                        <th>Timestamp</th>
+                        <th>User</th>
+                        <th>Action</th>
+                        <th>Entity</th>
+                        <th>Metadata Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="a : ${auditLogs}">
+                        <td th:text="${#temporals.format(a.timestamp, 'yyyy-MM-dd HH:mm:ss')}">Timestamp</td>
+                        <td>
+                            <strong th:text="${a.user != null ? a.user.fullName : 'System'}">User</strong>
+                            <small class="d-block text-muted" th:text="${a.user != null ? a.user.email : ''}"></small>
+                        </td>
+                        <td><span class="badge bg-secondary" th:text="${a.action}">LOGIN</span></td>
+                        <td th:text="${a.entityName != null ? a.entityName + ' #' + a.entityId : '-'}">Entity</td>
+                        <td th:text="${a.metadata}">Metadata</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

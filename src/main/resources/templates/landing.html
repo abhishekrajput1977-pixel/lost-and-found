@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusGuard – Smart College Lost & Found System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<!-- HERO SECTION -->
+<section class="hero-section text-center">
+    <div class="container position-relative">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-2 rounded-pill fw-semibold mb-3">
+            <i class="bi bi-shield-lock me-1"></i> Official College Identity Verification Network
+        </span>
+        <h1 class="hero-title text-white">Lost Something on Campus?</h1>
+        <p class="hero-subtitle">
+            CampusGuard helps students find lost belongings faster through verified college identity, intelligent matching, and secure ownership verification.
+        </p>
+
+        <div class="d-flex justify-content-center gap-3 flex-wrap">
+            <a th:href="@{/items/report-lost}" class="btn btn-primary btn-lg px-4 py-3 fw-bold rounded-3 shadow">
+                <i class="bi bi-search me-2"></i> Report Lost Item
+            </a>
+            <a th:href="@{/items/report-found}" class="btn btn-success btn-lg px-4 py-3 fw-bold rounded-3 shadow">
+                <i class="bi bi-plus-circle me-2"></i> Report Found Item
+            </a>
+            <a th:href="@{/items/search}" class="btn btn-outline-light btn-lg px-4 py-3 fw-bold rounded-3">
+                <i class="bi bi-grid-3x3-gap me-2"></i> Find an Item
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- LIVE STATS BAR -->
+<section class="py-4 bg-white border-bottom shadow-sm">
+    <div class="container">
+        <div class="row g-4 text-center">
+            <div class="col-md-3 col-6 border-end">
+                <h3 class="fw-extrabold text-primary mb-0" th:text="${stats.totalLostItems}">0</h3>
+                <small class="text-muted fw-semibold uppercase">Total Lost Items</small>
+            </div>
+            <div class="col-md-3 col-6 border-end">
+                <h3 class="fw-extrabold text-success mb-0" th:text="${stats.totalFoundItems}">0</h3>
+                <small class="text-muted fw-semibold uppercase">Total Found Items</small>
+            </div>
+            <div class="col-md-3 col-6 border-end">
+                <h3 class="fw-extrabold text-warning mb-0" th:text="${stats.potentialMatches}">0</h3>
+                <small class="text-muted fw-semibold uppercase">Potential Matches</small>
+            </div>
+            <div class="col-md-3 col-6">
+                <h3 class="fw-extrabold text-info mb-0" th:text="${stats.resolutionRate + '%'}">0%</h3>
+                <small class="text-muted fw-semibold uppercase">Resolution Rate</small>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- HOW IT WORKS SECTION -->
+<section class="py-5">
+    <div class="container py-4">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">How CampusGuard Works</h2>
+            <p class="text-muted">Four simple steps to safely recover your belongings on campus.</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-3">
+                <div class="card-cg h-100 p-4 text-center">
+                    <div class="bg-primary-subtle text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:64px; height:64px;">
+                        <i class="bi bi-pencil-square fs-3"></i>
+                    </div>
+                    <h5 class="fw-bold">1. Submit Report</h5>
+                    <p class="text-muted small">File a lost or found report with photos, location, date, and private identifying marks.</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card-cg h-100 p-4 text-center">
+                    <div class="bg-info-subtle text-info rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:64px; height:64px;">
+                        <i class="bi bi-cpu fs-3"></i>
+                    </div>
+                    <h5 class="fw-bold">2. Smart Matching</h5>
+                    <p class="text-muted small">Our Java matching algorithm calculates similarity scores (Text 40%, Location 20%, Date 15%, etc.).</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card-cg h-100 p-4 text-center">
+                    <div class="bg-warning-subtle text-warning rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:64px; height:64px;">
+                        <i class="bi bi-shield-check fs-3"></i>
+                    </div>
+                    <h5 class="fw-bold">3. Verify Ownership</h5>
+                    <p class="text-muted small">Answer confidential ownership questions based on private identifying features.</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card-cg h-100 p-4 text-center">
+                    <div class="bg-success-subtle text-success rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:64px; height:64px;">
+                        <i class="bi bi-box-seam fs-3"></i>
+                    </div>
+                    <h5 class="fw-bold">4. Safe Handover</h5>
+                    <p class="text-muted small">Present your official college ID to Security Officer and collect your returned item.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SYSTEM FEATURES -->
+<section class="py-5 bg-white border-top border-bottom">
+    <div class="container py-4">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6">
+                <span class="text-primary fw-bold uppercase">Security & Intelligence</span>
+                <h2 class="fw-bold my-3">Designed Exclusively for Campus Safety</h2>
+                <p class="text-muted">
+                    CampusGuard replaces chaotic WhatsApp/Facebook lost & found posts with a secure, college-verified system that protects student privacy and prevents false claims.
+                </p>
+                <div class="d-flex flex-column gap-3 mt-4">
+                    <div class="d-flex align-items-start gap-3">
+                        <i class="bi bi-check-circle-fill text-success fs-5 mt-1"></i>
+                        <div>
+                            <h6 class="fw-bold mb-1">College Identity Verification</h6>
+                            <p class="text-muted small mb-0">Closed registration using college email and official student IDs.</p>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-start gap-3">
+                        <i class="bi bi-check-circle-fill text-success fs-5 mt-1"></i>
+                        <div>
+                            <h6 class="fw-bold mb-1">Private Identifying Marks</h6>
+                            <p class="text-muted small mb-0">Confidential details are hidden publicly and used for secret ownership verification.</p>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-start gap-3">
+                        <i class="bi bi-check-circle-fill text-success fs-5 mt-1"></i>
+                        <div>
+                            <h6 class="fw-bold mb-1">Anti-Fraud & Trust Scoring</h6>
+                            <p class="text-muted small mb-0">Algorithms flag suspicious claims and maintain internal user trust scores.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 text-center">
+                <div class="p-4 bg-dark rounded-4 shadow-lg text-start text-white border border-secondary">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="badge bg-primary">Potential Match Engine</span>
+                        <span class="badge bg-success">92.5% Confidence</span>
+                    </div>
+                    <h5 class="fw-bold text-white mb-2">Black Nike Backpack</h5>
+                    <p class="small text-secondary mb-3">Matched item at Central Library with 92.5% composite similarity score.</p>
+                    <div class="progress mb-2" style="height: 8px;">
+                        <div class="progress-bar bg-success" style="width: 92.5%"></div>
+                    </div>
+                    <div class="d-flex justify-content-between small text-secondary">
+                        <span>Text Similarity: 94%</span>
+                        <span>Location: 100%</span>
+                        <span>Date: 90%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ SECTION -->
+<section class="py-5">
+    <div class="container py-4">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">Frequently Asked Questions</h2>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="accordion shadow-sm rounded-3 overflow-hidden" id="faqAccordion">
+                    <div class="accordion-item border-0 border-bottom">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                Who can register on CampusGuard?
+                            </button>
+                        </h2>
+                        <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body text-muted small">
+                                CampusGuard is a closed system for verified college students, faculty, staff, and security officers with official college email addresses and student IDs.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item border-0 border-bottom">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                Is my email address or phone number exposed publicly?
+                            </button>
+                        </h2>
+                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body text-muted small">
+                                No. Your personal contact details and secret identifying marks are strictly confidential and protected by role-based access control.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item border-0">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                How does item handover work?
+                            </button>
+                        </h2>
+                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body text-muted small">
+                                Once an ownership claim is verified and approved, a unique Handover Code (e.g. CG-HO-2026-000001) is generated. Present your college ID to the Security Officer at the designated handover counter to collect your item.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

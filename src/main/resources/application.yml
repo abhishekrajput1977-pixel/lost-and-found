@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: CampusGuard
+  profiles:
+    active: dev
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+campusguard:
+  jwt:
+    secret: 9a2f8c7d6e5f4a3b2c1d0e9f8a7b6c5d4e3f2a1b0c9d8e7f6a5b4c3d2e1f0a9b
+    expiration-ms: 86400000 # 24 hours
+  upload:
+    dir: ./uploads
+  mail:
+    dev-mode: true
+    from-email: no-reply@campusguard.edu
+  matching:
+    threshold-high: 85.0
+    threshold-medium: 65.0
+    threshold-low: 45.0
+    weights:
+      text: 0.40
+      location: 0.20
+      date: 0.15
+      category: 0.10
+      brand: 0.10
+      color: 0.05
+
+server:
+  # Most hosts supply the listener port through the PORT environment variable.
+  port: ${PORT:8080}
+  error:
+    include-message: always

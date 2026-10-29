@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head></head>
+<body>
+<div th:fragment="alerts">
+    <div th:if="${param.success}" class="alert alert-success alert-dismissible fade show my-3 border-0 shadow-sm" role="alert">
+        <i class="bi bi-check-circle-fill me-2"></i>
+        <span th:if="${param.success[0] == 'lost_reported'}">Lost item report submitted successfully! Smart matching is analyzing campus databases.</span>
+        <span th:if="${param.success[0] == 'found_reported'}">Found item report logged successfully! Thank you for assisting campus security.</span>
+        <span th:if="${param.success[0] == 'claim_submitted'}">Claim submitted successfully! Please complete ownership verification.</span>
+        <span th:if="${param.success[0] == 'handover_completed'}">Item handover verified and completed successfully by Security.</span>
+        <span th:if="${param.success[0] == 'claim_reviewed'}">Claim decision recorded successfully.</span>
+        <span th:if="${param.success[0] == 'status_toggled'}">User account status updated.</span>
+        <span th:if="${param.success[0] == 'flag_resolved'}">Fraud flag updated successfully.</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+
+    <div th:if="${param.error} or ${error}" class="alert alert-danger alert-dismissible fade show my-3 border-0 shadow-sm" role="alert">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+        <span th:text="${param.error != null ? param.error[0] : error}">An error occurred. Please try again.</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+</div>
+</body>
+</html>

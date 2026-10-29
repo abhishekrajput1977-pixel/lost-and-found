@@ -1,0 +1,18 @@
+package org.campusguard.entity.enums;
+
+public enum AuditAction {
+    LOGIN,
+    LOGOUT,
+    REPORT_CREATED,
+    REPORT_UPDATED,
+    REPORT_DELETED,
+    MATCH_CREATED,
+    CLAIM_SUBMITTED,
+    VERIFICATION_ATTEMPTED,
+    CLAIM_APPROVED,
+    CLAIM_REJECTED,
+    HANDOVER_CREATED,
+    HANDOVER_COMPLETED,
+    ITEM_RETURNED,
+    ADMIN_ACTION
+}

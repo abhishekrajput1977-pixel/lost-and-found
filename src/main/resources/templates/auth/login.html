@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login – CampusGuard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="bg-light">
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container py-5 my-4">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="glass-card shadow-lg">
+                <div class="text-center mb-4">
+                    <div class="bg-primary-subtle text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width:54px; height:54px;">
+                        <i class="bi bi-shield-lock-fill fs-3"></i>
+                    </div>
+                    <h3 class="fw-bold mb-1">CampusGuard Login</h3>
+                    <p class="text-muted small">Sign in with your official college email</p>
+                </div>
+
+                <div th:replace="~{fragments/alerts :: alerts}"></div>
+
+                <!-- QUICK VIVA DEMO LOGIN BUTTONS -->
+                <div class="p-3 bg-light rounded-3 border mb-4 text-center">
+                    <small class="text-muted fw-bold d-block mb-2 uppercase" style="font-size:0.75rem;">Viva Quick Demo Accounts</small>
+                    <div class="d-flex justify-content-center gap-2 flex-wrap">
+                        <button type="button" class="btn btn-outline-primary btn-sm" onclick="fillDemoLogin('student')">
+                            <i class="bi bi-person me-1"></i> Student
+                        </button>
+                        <button type="button" class="btn btn-outline-success btn-sm" onclick="fillDemoLogin('security')">
+                            <i class="bi bi-shield me-1"></i> Security
+                        </button>
+                        <button type="button" class="btn btn-outline-danger btn-sm" onclick="fillDemoLogin('admin')">
+                            <i class="bi bi-gear me-1"></i> Admin
+                        </button>
+                    </div>
+                </div>
+
+                <form th:action="@{/login}" method="post">
+                    <div class="mb-3">
+                        <label for="email" class="form-label fw-semibold">College Email</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                            <input type="email" id="email" name="username" class="form-control" placeholder="student@college.test" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="password" class="form-label fw-semibold">Password</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-key"></i></span>
+                            <input type="password" id="password" name="password" class="form-control" placeholder="••••••••" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-lg w-100 fw-bold shadow-sm">
+                        <i class="bi bi-box-arrow-in-right me-2"></i> Sign In
+                    </button>
+                </form>
+
+                <div class="text-center mt-4 pt-3 border-top">
+                    <span class="text-muted small">New Student?</span>
+                    <a th:href="@{/register}" class="fw-bold text-decoration-none ms-1">Register Student ID</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

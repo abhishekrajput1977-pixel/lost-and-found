@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Lost Item – CampusGuard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="bg-light">
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="glass-card shadow-lg">
+                <div class="d-flex align-items-center gap-3 mb-4 pb-3 border-bottom">
+                    <div class="bg-primary-subtle text-primary rounded-circle d-inline-flex align-items-center justify-content-center" style="width:50px; height:50px;">
+                        <i class="bi bi-search fs-3"></i>
+                    </div>
+                    <div>
+                        <h3 class="fw-bold mb-0">Report Lost Item</h3>
+                        <p class="text-muted small mb-0">Fill in accurate details to enable smart matching against campus database</p>
+                    </div>
+                </div>
+
+                <div th:replace="~{fragments/alerts :: alerts}"></div>
+
+                <form th:action="@{/items/report-lost}" method="post" enctype="multipart/form-data">
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-8">
+                            <label class="form-label fw-semibold">Item Name *</label>
+                            <input type="text" name="itemName" class="form-control" placeholder="e.g. Black Nike Backpack, iPhone 15 Pro" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">Category *</label>
+                            <select name="categoryId" class="form-select" required>
+                                <option value="">Select Category</option>
+                                <option th:each="cat : ${categories}" th:value="${cat.id}" th:text="${cat.name}"></option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Brand / Manufacturer</label>
+                            <input type="text" name="brand" class="form-control" placeholder="e.g. Nike, Apple, Dell, Titan">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Color</label>
+                            <input type="text" name="color" class="form-control" placeholder="e.g. Black, Navy Blue, Silver">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Public Item Description *</label>
+                        <textarea name="description" class="form-control" rows="3" placeholder="Describe the item general appearance, contents, and state..." required></textarea>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Lost Location *</label>
+                            <select name="locationId" class="form-select" required>
+                                <option value="">Select Campus Location</option>
+                                <option th:each="loc : ${locations}" th:value="${loc.id}" th:text="${loc.name + ' (' + loc.building + ')'}"></option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label fw-semibold">Lost Date *</label>
+                            <input type="date" name="lostDate" class="form-control" th:value="${#temporals.format(#temporals.createNow(), 'yyyy-MM-dd')}" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label fw-semibold">Approx. Time</label>
+                            <input type="time" name="lostTime" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Item Photo (Optional)</label>
+                            <input type="file" name="file" class="form-control" accept="image/*">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Serial Number (Optional)</label>
+                            <input type="text" name="serialNumber" class="form-control" placeholder="e.g. SN-9988112">
+                        </div>
+                    </div>
+
+                    <!-- PRIVATE IDENTIFYING INFORMATION CARD -->
+                    <div class="private-info-box mb-4">
+                        <div class="d-flex align-items-center gap-2 mb-2">
+                            <i class="bi bi-lock-fill text-primary fs-5"></i>
+                            <h6 class="fw-bold text-dark mb-0">Private Identifying Information (Secret Verification)</h6>
+                        </div>
+                        <p class="small text-muted mb-2">
+                            This information will <strong>NEVER</strong> be displayed publicly. It is used strictly during ownership verification when a potential match is found.
+                        </p>
+                        <textarea name="privateIdentifyingInfo" class="form-control" rows="2" placeholder="e.g. Small tear near left strap, blue keychain inside, scratch on back corner..."></textarea>
+                    </div>
+
+                    <div class="d-flex justify-content-end gap-2">
+                        <a th:href="@{/dashboard}" class="btn btn-outline-secondary px-4">Cancel</a>
+                        <button type="submit" class="btn btn-primary px-5 fw-bold">
+                            <i class="bi bi-send-fill me-2"></i> Submit Lost Report
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

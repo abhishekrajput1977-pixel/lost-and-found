@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head></head>
+<body>
+<div th:fragment="navbar">
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-cg py-3">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" th:href="@{/}">
+                <i class="bi bi-shield-check text-primary fs-3"></i>
+                <div>
+                    <div>CampusGuard</div>
+                    <small class="text-muted fw-normal d-block" style="font-size: 0.7rem; margin-top: -4px;">Smart Lost & Found</small>
+                </div>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                    <li class="nav-item"><a class="nav-link" th:href="@{/}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/items/search}">Search Items</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/about}">About System</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/faq}">FAQ</a></li>
+                </ul>
+
+                <div class="d-flex align-items-center gap-3">
+                    <div sec:authorize="isAuthenticated()" class="d-flex align-items-center gap-3">
+                        <a th:href="@{/items/matches}" class="btn btn-outline-light btn-sm position-relative">
+                            <i class="bi bi-cpu me-1"></i> Matches
+                        </a>
+                        <a th:href="@{/dashboard}" class="btn btn-primary btn-sm px-3">
+                            <i class="bi bi-grid-fill me-1"></i> Dashboard
+                        </a>
+                        <span id="unreadNotificationBadge" class="badge bg-danger rounded-pill" style="display: none;">0</span>
+                        <a th:href="@{/logout}" class="btn btn-outline-danger btn-sm">
+                            <i class="bi bi-box-arrow-right me-1"></i> Logout
+                        </a>
+                    </div>
+                    <div sec:authorize="!isAuthenticated()" class="d-flex align-items-center gap-2">
+                        <a th:href="@{/login}" class="btn btn-outline-light btn-sm px-3">Login</a>
+                        <a th:href="@{/register}" class="btn btn-primary btn-sm px-3">Register Student ID</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>
+</body>
+</html>
